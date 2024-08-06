@@ -49,7 +49,7 @@ module "subnets" {
 }
 ```
 
-# Example: public-private
+# Example: workspace
 
 ```hcl
 module "workspace" {
