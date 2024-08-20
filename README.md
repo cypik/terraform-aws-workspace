@@ -53,8 +53,9 @@ module "subnets" {
 
 ```hcl
 module "workspace" {
-  source = "./../"
-  name   = "workspace"
+  sour      = "cypik/workspace/aws"
+  versio    = "1.0.0"
+  name      = "workspace"
   ##ad
   subnet_ids = module.subnets.private_subnet_id
   vpc_settings = {
