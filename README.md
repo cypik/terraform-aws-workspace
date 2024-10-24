@@ -22,7 +22,7 @@ To use this module, include it in your Terraform configuration file and provide 
 ```hcl
 module "vpc" {
   source          = "cypik/vpc/aws"
-  version         = "1.0.0"
+  version         = "1.0.1"
   name            = "vpc"
   environment     = "test"
   cidr_block      = "10.0.0.0/16"
@@ -35,7 +35,7 @@ module "vpc" {
 ```hcl
 module "subnets" {
   source              = "cypik/subnet/aws"
-  version             = "1.0.2"
+  version             = "1.0.3"
   name                = "subnet"
   environment         = "workspace-subnet"
   availability_zones  = ["eu-west-1a", "eu-west-1b", ]
@@ -54,7 +54,7 @@ module "subnets" {
 ```hcl
 module "workspace" {
   sour      = "cypik/workspace/aws"
-  versio    = "1.0.0"
+  versio    = "1.0.1"
   name      = "workspace"
   ##ad
   subnet_ids = module.subnets.private_subnet_id
@@ -99,14 +99,14 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.6 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.31.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.5 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.67.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.31.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >=5.67.0 |
 
 ## Modules
 
@@ -139,6 +139,7 @@ No modules.
 | <a name="input_connect_settings"></a> [connect\_settings](#input\_connect\_settings) | (Required for ADConnector) Connector related information about the directory. Fields documented below. | `map(string)` | `{}` | no |
 | <a name="input_custom_policy"></a> [custom\_policy](#input\_custom\_policy) | Custom policy ARN | `string` | `""` | no |
 | <a name="input_description"></a> [description](#input\_description) | A textual description for the directory. | `string` | `"Workspace Active Directory"` | no |
+| <a name="input_desired_number_of_domain_controllers"></a> [desired\_number\_of\_domain\_controllers](#input\_desired\_number\_of\_domain\_controllers) | The number of domain controllers desired in the directory. Minimum value of 2. | `number` | `2` | no |
 | <a name="input_device_type_android"></a> [device\_type\_android](#input\_device\_type\_android) | Indicates whether users can use Android devices to access their WorkSpaces. | `string` | `"ALLOW"` | no |
 | <a name="input_device_type_chromeos"></a> [device\_type\_chromeos](#input\_device\_type\_chromeos) | Indicates whether users can use Chromebooks to access their WorkSpaces. | `string` | `"ALLOW"` | no |
 | <a name="input_device_type_ios"></a> [device\_type\_ios](#input\_device\_type\_ios) | Indicates whether users can use iOS devices to access their WorkSpaces. | `string` | `"ALLOW"` | no |
@@ -152,27 +153,42 @@ No modules.
 | <a name="input_enable_maintenance_mode"></a> [enable\_maintenance\_mode](#input\_enable\_maintenance\_mode) | Indicates whether maintenance mode is enabled for your WorkSpaces. | `bool` | `true` | no |
 | <a name="input_enable_sso"></a> [enable\_sso](#input\_enable\_sso) | Whether to enable single-sign on for the directory. Requires alias. | `bool` | `false` | no |
 | <a name="input_enable_workspace"></a> [enable\_workspace](#input\_enable\_workspace) | Flag to control the module creation. | `bool` | `false` | no |
+| <a name="input_force_detach_policies"></a> [force\_detach\_policies](#input\_force\_detach\_policies) | Whether to force detaching any policies the role has before destroying it. | `bool` | `false` | no |
 | <a name="input_increase_volume_size"></a> [increase\_volume\_size](#input\_increase\_volume\_size) | Whether WorkSpaces directory users can increase the volume size of the drives on their workspace. | `bool` | `true` | no |
+| <a name="input_inline_policy_name"></a> [inline\_policy\_name](#input\_inline\_policy\_name) | The name of the inline policy. | `string` | `"DefaultInlinePolicy"` | no |
 | <a name="input_ip_whitelist"></a> [ip\_whitelist](#input\_ip\_whitelist) | List of IP's to for whitelist | `list(string)` | <pre>[<br>  "103.59.207.249/32"<br>]</pre> | no |
+| <a name="input_managed_policy_arns"></a> [managed\_policy\_arns](#input\_managed\_policy\_arns) | Set of exclusive IAM managed policy ARNs to attach to the IAM role. | `list(string)` | `[]` | no |
+| <a name="input_max_session_duration"></a> [max\_session\_duration](#input\_max\_session\_duration) | Maximum session duration (in seconds) for the specified role. | `number` | `3600` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
+| <a name="input_path"></a> [path](#input\_path) | Path to the role. | `string` | `"/"` | no |
+| <a name="input_permissions_boundary"></a> [permissions\_boundary](#input\_permissions\_boundary) | ARN of the policy that is used to set the permissions boundary for the role. | `string` | `""` | no |
 | <a name="input_rebuild_workspace"></a> [rebuild\_workspace](#input\_rebuild\_workspace) | Whether WorkSpaces directory users can rebuild the operating system of a workspace to its original state. | `bool` | `true` | no |
+| <a name="input_relay_state_parameter_name"></a> [relay\_state\_parameter\_name](#input\_relay\_state\_parameter\_name) | The relay state parameter name supported by the SAML 2.0 identity provider (IdP). | `string` | `"RelayState"` | no |
 | <a name="input_restart_workspace"></a> [restart\_workspace](#input\_restart\_workspace) | Whether WorkSpaces directory users can restart their workspace. | `bool` | `true` | no |
+| <a name="input_role_name"></a> [role\_name](#input\_role\_name) | The friendly name of the IAM role. | `string` | `"workspaces_DefaultRole"` | no |
 | <a name="input_short_name"></a> [short\_name](#input\_short\_name) | The short name of the directory, such as CORP. | `string` | `"CORP"` | no |
+| <a name="input_status"></a> [status](#input\_status) | Status of SAML 2.0 authentication. | `string` | `"DISABLED"` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | VPC Subnet IDs to create workspaces in | `list(string)` | n/a | yes |
 | <a name="input_switch_running_mode"></a> [switch\_running\_mode](#input\_switch\_running\_mode) | Whether WorkSpaces directory users can switch the running mode of their workspace. | `bool` | `true` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resource. | `map(string)` | `{}` | no |
 | <a name="input_type"></a> [type](#input\_type) | The directory type (SimpleAD, ADConnector or MicrosoftAD are accepted values). | `string` | `"SimpleAD"` | no |
+| <a name="input_user_access_url"></a> [user\_access\_url](#input\_user\_access\_url) | The SAML 2.0 identity provider (IdP) user access URL. | `string` | `"https://idp.example.com/saml"` | no |
 | <a name="input_user_enabled_as_local_administrator"></a> [user\_enabled\_as\_local\_administrator](#input\_user\_enabled\_as\_local\_administrator) | Indicates whether users are local administrators of their WorkSpaces. | `bool` | `true` | no |
 | <a name="input_vpc_settings"></a> [vpc\_settings](#input\_vpc\_settings) | (Required for SimpleAD and MicrosoftAD) VPC related information about the directory. Fields documented below. | `map(string)` | `{}` | no |
-| <a name="input_workspaces"></a> [workspaces](#input\_workspaces) | Map of workspace configurations | <pre>map(object({<br>    bundle_id                                 = string<br>    user_name                                 = string<br>    root_volume_encryption_enabled            = optional(bool, false)<br>    user_volume_encryption_enabled            = optional(bool, false)<br>    volume_encryption_key                     = optional(string, null)<br>    compute_type_name                         = optional(string, "VALUE")<br>    user_volume_size_gib                      = optional(number, 10)<br>    root_volume_size_gib                      = optional(number, 80)<br>    running_mode                              = optional(string, "AUTO_STOP")<br>    running_mode_auto_stop_timeout_in_minutes = optional(number, 60)<br>  }))</pre> | `{}` | no |
+| <a name="input_workspace_bundle_id"></a> [workspace\_bundle\_id](#input\_workspace\_bundle\_id) | The bundle ID for the WorkSpace, which defines the hardware and software configuration. | `string` | n/a | yes |
+| <a name="input_workspaces"></a> [workspaces](#input\_workspaces) | Map of workspace configurations. | <pre>map(object({<br>    user_name                                 = string<br>    bundle_id                                 = string<br>    root_volume_encryption_enabled            = optional(bool, false)<br>    user_volume_encryption_enabled            = optional(bool, false)<br>    volume_encryption_key                     = optional(string, null)<br>    compute_type_name                         = optional(string, "VALUE")<br>    user_volume_size_gib                      = optional(number, 10)<br>    root_volume_size_gib                      = optional(number, 80)<br>    running_mode                              = optional(string, "AUTO_STOP")<br>    running_mode_auto_stop_timeout_in_minutes = optional(number, 60)<br>  }))</pre> | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ad_id"></a> [ad\_id](#output\_ad\_id) | outputs of aws workspaces directory id |
+| <a name="output_ad_id"></a> [ad\_id](#output\_ad\_id) | The concatenated ID(s) of the main AWS WorkSpaces directory, combining multiple IDs into a single string. |
+| <a name="output_directory_dns_ip_addresses"></a> [directory\_dns\_ip\_addresses](#output\_directory\_dns\_ip\_addresses) | The DNS IP addresses of the created Directory Service Directory. |
+| <a name="output_directory_id"></a> [directory\_id](#output\_directory\_id) | The ID of the created WorkSpaces directory. |
+| <a name="output_directory_name"></a> [directory\_name](#output\_directory\_name) | The name of the created Directory Service Directory. |
 | <a name="output_directory_service_id"></a> [directory\_service\_id](#output\_directory\_service\_id) | The ID of the Directory Service |
-| <a name="output_workspace_ids"></a> [workspace\_ids](#output\_workspace\_ids) | The IDs of the created WorkSpaces |
-| <a name="output_workspace_user_names"></a> [workspace\_user\_names](#output\_workspace\_user\_names) | The user names associated with the created WorkSpaces |
+| <a name="output_saml_status"></a> [saml\_status](#output\_saml\_status) | The status of SAML 2.0 authentication. |
+| <a name="output_user_access_url"></a> [user\_access\_url](#output\_user\_access\_url) | The user access URL for the SAML 2.0 identity provider (IdP). |
 | <a name="output_workspaces_directory_id"></a> [workspaces\_directory\_id](#output\_workspaces\_directory\_id) | The ID of the WorkSpaces Directory |
 | <a name="output_workspaces_ip_group_id"></a> [workspaces\_ip\_group\_id](#output\_workspaces\_ip\_group\_id) | The ID of the WorkSpaces IP Group |
 <!-- END_TF_DOCS -->

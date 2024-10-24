@@ -8,6 +8,7 @@ resource "aws_directory_service_directory" "main" {
   description = var.description
   short_name  = var.short_name
   edition     = var.edition
+  tags        = var.tags
 
   dynamic "vpc_settings" {
     for_each = length(keys(var.vpc_settings)) == 0 ? [] : [var.vpc_settings]
@@ -38,7 +39,10 @@ locals {
 }
 
 resource "aws_workspaces_ip_group" "ipgroup" {
-  name = format("ipgroup-%s-aws", var.name)
+  name        = format("ipgroup-%s-aws", var.name)
+  description = var.description
+  tags        = var.tags
+
   dynamic "rules" {
     for_each = local.ip_rules
     content {
@@ -80,6 +84,12 @@ resource "aws_workspaces_directory" "main" {
     user_enabled_as_local_administrator = var.user_enabled_as_local_administrator
   }
 
+  saml_properties {
+    relay_state_parameter_name = var.relay_state_parameter_name
+    status                     = var.status
+    user_access_url            = var.user_access_url
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.workspaces_default_service_access,
     aws_iam_role_policy_attachment.workspaces_default_self_service_access,
@@ -103,8 +113,14 @@ data "aws_iam_policy_document" "workspaces" {
 }
 
 resource "aws_iam_role" "workspaces_default" {
-  name               = "workspaces_DefaultRole"
-  assume_role_policy = data.aws_iam_policy_document.workspaces.json
+  name                  = "workspaces_DefaultRole"
+  assume_role_policy    = data.aws_iam_policy_document.workspaces.json
+  description           = var.description
+  force_detach_policies = var.force_detach_policies
+  max_session_duration  = var.max_session_duration
+  path                  = var.path
+  permissions_boundary  = var.permissions_boundary
+  tags                  = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "workspaces_default_service_access" {
