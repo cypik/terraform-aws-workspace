@@ -56,6 +56,7 @@ module "workspace" {
   sour      = "cypik/workspace/aws"
   versio    = "1.0.1"
   name      = "workspace"
+
   ##ad
   subnet_ids = module.subnets.private_subnet_id
   vpc_settings = {

@@ -18,9 +18,8 @@ module "vpc" {
 #### A subnet is a range of IP addresses in your VPC.
 #####################################################################################
 module "subnets" {
-  source = "git::https://github.com/cypik/terraform-aws-subnet.git?ref=1.0.3"
-  #  version = "1.0.3"
-
+  source              = "cypik/subnet/aws"
+  version             = "1.0.3"
   name                = "subnet"
   environment         = "workspace-subnet"
   availability_zones  = ["eu-west-1a", "eu-west-1b", ]
