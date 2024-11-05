@@ -49,7 +49,7 @@ module "workspace" {
   user_enabled_as_local_administrator = true
 
   ##workspace
-  enable_workspace    = true
+  enable_workspace    = false
   workspace_bundle_id = "wsb-208l8k46h"
   // first run terraform apply with enable_workspace = false and then create custom user names in workspace manually and specify here that username and re-run tf apply with enable_workspace = true so that workspace with custom-username gets created .
 
