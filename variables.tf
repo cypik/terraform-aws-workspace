@@ -195,10 +195,10 @@ variable "edition" {
 }
 
 variable "workspaces" {
-  description = "Map of workspace configurations"
+  description = "Map of workspace configurations."
   type = map(object({
-    bundle_id                                 = string
     user_name                                 = string
+    bundle_id                                 = string
     root_volume_encryption_enabled            = optional(bool, false)
     user_volume_encryption_enabled            = optional(bool, false)
     volume_encryption_key                     = optional(string, null)
@@ -209,4 +209,52 @@ variable "workspaces" {
     running_mode_auto_stop_timeout_in_minutes = optional(number, 60)
   }))
   default = {}
+}
+
+variable "tags" {
+  description = "A map of tags to assign to the resource."
+  type        = map(string)
+  default     = {}
+}
+
+variable "relay_state_parameter_name" {
+  description = "The relay state parameter name supported by the SAML 2.0 identity provider (IdP)."
+  type        = string
+  default     = "RelayState"
+}
+
+variable "status" {
+  description = "Status of SAML 2.0 authentication."
+  type        = string
+  default     = "DISABLED"
+}
+
+variable "user_access_url" {
+  description = "The SAML 2.0 identity provider (IdP) user access URL."
+  type        = string
+  default     = "https://idp.example.com/saml" # Replace with your actual URL
+}
+
+variable "force_detach_policies" {
+  description = "Whether to force detaching any policies the role has before destroying it."
+  type        = bool
+  default     = false
+}
+
+variable "max_session_duration" {
+  description = "Maximum session duration (in seconds) for the specified role."
+  type        = number
+  default     = 3600 # 1 hour
+}
+
+variable "path" {
+  description = "Path to the role."
+  type        = string
+  default     = "/"
+}
+
+variable "permissions_boundary" {
+  description = "ARN of the policy that is used to set the permissions boundary for the role."
+  type        = string
+  default     = ""
 }

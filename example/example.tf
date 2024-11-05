@@ -7,7 +7,7 @@ provider "aws" {
 #####################################################################################
 module "vpc" {
   source          = "cypik/vpc/aws"
-  version         = "1.0.0"
+  version         = "1.0.1"
   name            = "vpc"
   environment     = "test"
   cidr_block      = "10.0.0.0/16"
@@ -18,9 +18,8 @@ module "vpc" {
 #### A subnet is a range of IP addresses in your VPC.
 #####################################################################################
 module "subnets" {
-  source  = "cypik/subnet/aws"
-  version = "1.0.2"
-
+  source              = "cypik/subnet/aws"
+  version             = "1.0.3"
   name                = "subnet"
   environment         = "workspace-subnet"
   availability_zones  = ["eu-west-1a", "eu-west-1b", ]
@@ -34,7 +33,7 @@ module "subnets" {
 }
 
 module "workspace" {
-  source = ".."
+  source = "./../"
   name   = "workspace"
   ##ad
   subnet_ids = module.subnets.private_subnet_id
@@ -50,7 +49,8 @@ module "workspace" {
   user_enabled_as_local_administrator = true
 
   ##workspace
-  enable_workspace = true
+  enable_workspace    = false
+  workspace_bundle_id = "wsb-208l8k46h"
   // first run terraform apply with enable_workspace = false and then create custom user names in workspace manually and specify here that username and re-run tf apply with enable_workspace = true so that workspace with custom-username gets created .
 
   workspaces = {
