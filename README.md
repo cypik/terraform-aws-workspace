@@ -16,45 +16,13 @@ This Terraform module creates AWS Workspace along with additional configuration 
 
 ## Usage
 To use this module, include it in your Terraform configuration file and provide the required input variables. Below is an example of how to use the module:
-# Examples:
-# Example: vpc
-
-```hcl
-module "vpc" {
-  source          = "cypik/vpc/aws"
-  version         = "1.0.1"
-  name            = "vpc"
-  environment     = "test"
-  cidr_block      = "10.0.0.0/16"
-  enable_flow_log = true
-}
-```
-
-# Example: subnets
-
-```hcl
-module "subnets" {
-  source              = "cypik/subnet/aws"
-  version             = "1.0.3"
-  name                = "subnet"
-  environment         = "workspace-subnet"
-  availability_zones  = ["eu-west-1a", "eu-west-1b", ]
-  vpc_id              = module.vpc.id
-  type                = "public-private"
-  nat_gateway_enabled = true
-  single_nat_gateway  = true
-  cidr_block          = module.vpc.vpc_cidr_block
-  igw_id              = module.vpc.igw_id
-
-}
-```
 
 # Example: workspace
 
 ```hcl
 module "workspace" {
   sour      = "cypik/workspace/aws"
-  versio    = "1.0.1"
+  versio    = "1.0.2"
   name      = "workspace"
 
   ##ad
