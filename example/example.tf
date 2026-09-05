@@ -7,7 +7,7 @@ provider "aws" {
 #####################################################################################
 module "vpc" {
   source          = "cypik/vpc/aws"
-  version         = "1.0.1"
+  version         = "1.0.5"
   name            = "vpc"
   environment     = "test"
   cidr_block      = "10.0.0.0/16"
@@ -19,7 +19,7 @@ module "vpc" {
 #####################################################################################
 module "subnets" {
   source              = "cypik/subnet/aws"
-  version             = "1.0.3"
+  version             = "1.0.7"
   name                = "subnet"
   environment         = "workspace-subnet"
   availability_zones  = ["eu-west-1a", "eu-west-1b", ]
